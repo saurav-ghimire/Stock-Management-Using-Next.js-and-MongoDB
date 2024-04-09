@@ -25,7 +25,8 @@ export default function Home() {
   const [formData, setFormData] = useState({
     title:'',
     stocks:'',
-    price:''
+    price:'',
+    category:'',
   })
 
   const handleInputChange = (e) => {
@@ -53,7 +54,8 @@ export default function Home() {
           setFormData({
             title: '',
             stocks: '',
-            price: ''
+            price: '',
+            category: ''
           });
 
       }
@@ -78,7 +80,7 @@ export default function Home() {
             placeholder="Product Name"
             onChange={handleInputChange}
             value={formData.title}
-            className="w-full md:w-[30%] py-2 px-4 border border-gray-300 rounded-l mb-2 md:mb-0 md:mr-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full md:w-[22%] py-2 px-4 border border-gray-300 rounded-l mb-2 md:mb-0 md:mr-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           />
           <input
             type="number"
@@ -86,7 +88,7 @@ export default function Home() {
             placeholder="Quantity"
             onChange={handleInputChange}
             value={formData.stocks}
-            className="w-full md:w-[30%] py-2 px-4 border border-gray-300 mb-2 md:mb-0 md:mr-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full md:w-[22%] py-2 px-4 border border-gray-300 mb-2 md:mb-0 md:mr-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           />
           <input
             type="number"
@@ -94,8 +96,46 @@ export default function Home() {
             placeholder="Price"
             onChange={handleInputChange}
             value={formData.price}
-            className="w-full md:w-[30%] py-2 px-4 border border-gray-300 rounded-r focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full md:w-[22%] py-2 px-4 border border-gray-300 rounded-r focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           />
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              className="w-full md:w-[22%] ml-2 py-2 px-4 border border-gray-300 rounded-r focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            >
+              <option value="">Select Category</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Books">Books</option>
+              <option value="Home & Kitchen">Home & Kitchen</option>
+              <option value="Health & Beauty">Health & Beauty</option>
+              <option value="Sports & Outdoors">Sports & Outdoors</option>
+              <option value="Toys & Games">Toys & Games</option>
+              <option value="Automotive">Automotive</option>
+              <option value="Tools & Home Improvement">Tools & Home Improvement</option>
+              <option value="Baby & Kids">Baby & Kids</option>
+              <option value="Office Supplies">Office Supplies</option>
+              <option value="Pet Supplies">Pet Supplies</option>
+              <option value="Jewelry & Watches">Jewelry & Watches</option>
+              <option value="Food & Beverages">Food & Beverages</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Garden & Outdoor">Garden & Outdoor</option>
+              <option value="Music & Movies">Music & Movies</option>
+              <option value="Art & Crafts">Art & Crafts</option>
+              <option value="Electronics Accessories">Electronics Accessories</option>
+              <option value="Stationery">Stationery</option>
+              <option value="Party Supplies">Party Supplies</option>
+              <option value="Travel & Luggage">Travel & Luggage</option>
+              <option value="Fitness & Exercise">Fitness & Exercise</option>
+              <option value="Video Games & Consoles">Video Games & Consoles</option>
+              <option value="Collectibles">Collectibles</option>
+              <option value="Musical Instruments">Musical Instruments</option>
+              <option value="Home Decor">Home Decor</option>
+              <option value="Personal Care">Personal Care</option>
+              <option value="Cleaning Supplies">Cleaning Supplies</option>
+              <option value="Industrial & Scientific">Industrial & Scientific</option>
+            </select>
           <button
             className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 mt-2 md:mt-0 md:ml-2 rounded focus:outline-none"
           >
@@ -122,11 +162,11 @@ export default function Home() {
               {/* Sample Stock Items */}
               {
                 listData.map((data, index) => (
-                  <tr key={index++} className="border-b border-gray-200">
+                  <tr key={index + 1} className="border-b border-gray-200">
                     
-                  <td className="py-4 px-6">{index++}</td>
+                  <td className="py-4 px-6">{index + 1}</td>
                   <td className="py-4 px-6">{data.title}</td>
-                  <td className="py-4 px-6">Category 1</td>
+                  <td className="py-4 px-6">{data.category}</td>
                   <td className="py-4 px-6">{data.stocks}</td>
                   <td className="py-4 px-6">{data.price}</td>
                 </tr>

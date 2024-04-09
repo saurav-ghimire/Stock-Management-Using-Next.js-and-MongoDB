@@ -10,11 +10,13 @@ export async function GET(request) {
 
 export async function POST(request, response) {
   initializeDb();
-  const {title, stocks, price} = await request.json();
+  const {title, stocks, price, category} = await request.json();
   await Inventory.create({
     title,
     stocks,
-    price
+    price,
+    category
   })
+
   return NextResponse.json({ msg: 'Inventory Created' }, { status: 200 })
 }

@@ -11,7 +11,12 @@ export const connectToDb = async () => {
       console.log("Already connected to the database");
       return;
     }
-    const db = await mongoose.connect(process.env.MONGO);
+    
+    const db = await mongoose.connect(process.env.MONGO, {
+      dbName: 'InventoriesData', // Specify your actual database name here
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     connection.isConnected = db.connections[0].readyState;
     console.log("Connected to the database");
   } catch (error) {
