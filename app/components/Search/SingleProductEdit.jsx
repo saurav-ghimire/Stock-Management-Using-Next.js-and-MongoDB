@@ -1,17 +1,54 @@
+import axios from 'axios';
 import React from "react";
+import { useState } from "react";
+import { toast } from 'react-toastify';
 
-function SingleProductEdit({popup}) {
+function SingleProductEdit({popup, id}) {
+  
+  const [formData, setFormData] = useState({
+    id:'',
+    title:'',
+    stocks:'',
+    price:''
+  });
+  formData.id = id;
+  const handleChange = (e) => {
+    // e.preventDefault();
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]:value
+    })
+  }
 
   const closePopup = () => {
-    // console.log('close is clicked');
     popup(false);
   }
+
+  const submitData = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.put(`/api/product/`, formData);
+      
+      if (response.status === 200) {
+        toast.success("Inventory Updated Successfully");
+        // You can add any success handling here, like showing a success message
+        closePopup();
+      }
+    } catch (error) {
+      console.error("Error updating inventory:", error);
+      // You can handle errors here, like showing an error message
+    }
+  }
+
+  
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white rounded-lg p-8 w-96">
         <h2 className="text-lg font-semibold mb-4">Edit Product</h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={submitData}>
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
               Title
@@ -20,6 +57,7 @@ function SingleProductEdit({popup}) {
               id="title"
               name="title"
               type="text"
+              onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder-gray-400"
               placeholder="Product Title"
             />
@@ -32,20 +70,22 @@ function SingleProductEdit({popup}) {
               id="stocks"
               name="stocks"
               type="number"
+              onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder-gray-400"
               placeholder="Number of Stocks"
             />
           </div>
           <div>
-            <label htmlFor="number" className="block text-sm font-medium text-gray-700">
-              Number
+            <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+              Price
             </label>
             <input
-              id="number"
-              name="number"
+              id="price"
+              name="price"
               type="number"
+              onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder-gray-400"
-              placeholder="Product Number"
+              placeholder="Product Price"
             />
           </div>
           <div className="flex justify-end">

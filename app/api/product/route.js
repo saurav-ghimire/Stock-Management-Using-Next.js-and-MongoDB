@@ -27,3 +27,25 @@ export async function DELETE(request) {
   await Inventory.findByIdAndDelete(id)
   return NextResponse.json({ msg: 'Todo Deleted' }, { status: 200 })
 }
+
+export async function PUT(request) {
+  initializeDb();
+  const { id, title, stocks, price, category } = await request.json();
+  let newData = {};
+  if (title) {
+    newData.title = title;
+  }
+  if (stocks) {
+    newData.stocks = stocks;
+  }
+  if (price) {
+    newData.price = price;
+  }
+  if (category) {
+    newData.category = category;
+  }
+
+  await Inventory.findByIdAndUpdate(id, newData, { new: true });
+  
+  return NextResponse.json({ msg: 'Inventory Updated' }, { status: 200 });
+}

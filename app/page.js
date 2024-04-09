@@ -6,7 +6,8 @@ import { toast } from 'react-toastify';
 import SingleProductEdit from './components/Search/SingleProductEdit';
 
 export default function Home() {
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState(false);
+  const [modalID, setModalID] = useState("");
   const [listData, setList] = useState([]);
 
   const fetchAllData = async () => {
@@ -88,8 +89,9 @@ export default function Home() {
     }
   }
 
-  const toggleModal = () => {
+  const toggleModal = (id) => {
     setModal(!modal);
+    setModalID(id)
   };
   
   
@@ -203,7 +205,7 @@ export default function Home() {
                       Delete
                   </button>
                   <button
-                  onClick={toggleModal}
+                   onClick={() => toggleModal(data._id)}
                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 ml-2 rounded">
                       Edit
                   </button>
@@ -217,7 +219,7 @@ export default function Home() {
         </div>
       </div>
       
-      {modal && <SingleProductEdit popup={toggleModal} />}
+      {modal && <SingleProductEdit popup={toggleModal} id={modalID} />}
 
     </div>
   );
