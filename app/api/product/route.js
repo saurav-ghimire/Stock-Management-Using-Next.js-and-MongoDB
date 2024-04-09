@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
   initializeDb();
-  return NextResponse.json({"he":"e"})
+  const data = await Inventory.find({});
+  return NextResponse.json(data, { status: 200 });
 }
 
 export async function POST(request, response) {

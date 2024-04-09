@@ -1,10 +1,25 @@
 "use client"
 import React from 'react';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 export default function Home() {
+
+  const [listData, setList] = useState([]);
+  const fetchAllData = async () => {
+    try{
+      const fetchedData = await axios.get("/api/product");
+      if(fetchedData.status === 200){
+        setList(fetchedData.data);
+      }
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    fetchAllData()
+  },[])
 
   
   const [formData, setFormData] = useState({
@@ -48,7 +63,7 @@ export default function Home() {
     }
   }
 
-  console.log(formData)
+  
   
 
   return (
@@ -96,6 +111,7 @@ export default function Home() {
           <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
             <thead className="bg-gray-800 text-white">
               <tr>
+                <th className="text-left py-3 px-4">Index</th>
                 <th className="text-left py-3 px-4">Product Name</th>
                 <th className="text-left py-3 px-4">Category</th>
                 <th className="text-left py-3 px-4">Quantity</th>
@@ -104,24 +120,19 @@ export default function Home() {
             </thead>
             <tbody className="text-gray-800">
               {/* Sample Stock Items */}
-              <tr className="border-b border-gray-200">
-                <td className="py-4 px-6">Product 1</td>
-                <td className="py-4 px-6">Category 1</td>
-                <td className="py-4 px-6">10</td>
-                <td className="py-4 px-6">$20</td>
-              </tr>
-              <tr className="border-b border-gray-200">
-                <td className="py-4 px-6">Product 2</td>
-                <td className="py-4 px-6">Category 2</td>
-                <td className="py-4 px-6">20</td>
-                <td className="py-4 px-6">$30</td>
-              </tr>
-              <tr className="border-b border-gray-200">
-                <td className="py-4 px-6">Product 3</td>
-                <td className="py-4 px-6">Category 3</td>
-                <td className="py-4 px-6">15</td>
-                <td className="py-4 px-6">$25</td>
-              </tr>
+              {
+                listData.map((data, index) => (
+                  <tr key={index++} className="border-b border-gray-200">
+                    
+                  <td className="py-4 px-6">{index++}</td>
+                  <td className="py-4 px-6">{data.title}</td>
+                  <td className="py-4 px-6">Category 1</td>
+                  <td className="py-4 px-6">{data.stocks}</td>
+                  <td className="py-4 px-6">{data.price}</td>
+                </tr>
+                ))
+              }
+              
             </tbody>
           </table>
         </div>
