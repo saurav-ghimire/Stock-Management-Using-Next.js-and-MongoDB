@@ -3,10 +3,12 @@ import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import SingleProductEdit from './components/Search/SingleProductEdit';
 
 export default function Home() {
-
+  const [modal, setModal] = useState(false)
   const [listData, setList] = useState([]);
+
   const fetchAllData = async () => {
     try{
       const fetchedData = await axios.get("/api/product");
@@ -86,6 +88,9 @@ export default function Home() {
     }
   }
 
+  const toggleModal = () => {
+    setModal(!modal);
+  };
   
   
 
@@ -197,7 +202,9 @@ export default function Home() {
                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
                       Delete
                   </button>
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 ml-2 rounded">
+                  <button
+                  onClick={toggleModal}
+                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 ml-2 rounded">
                       Edit
                   </button>
               </td>
@@ -209,6 +216,9 @@ export default function Home() {
           </table>
         </div>
       </div>
+      
+      {modal && <SingleProductEdit popup={toggleModal} />}
+
     </div>
   );
 }
