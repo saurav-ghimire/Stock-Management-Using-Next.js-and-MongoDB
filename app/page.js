@@ -58,6 +58,10 @@ export default function Home() {
             category: ''
           });
 
+          
+            fetchAllData()
+          
+
       }
      
     } catch (error) {
