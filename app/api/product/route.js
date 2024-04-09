@@ -1,4 +1,5 @@
 import { initializeDb } from "@/app/database/Connection";
+import Inventory from "@/app/database/models";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
@@ -6,7 +7,13 @@ export async function GET(request) {
   return NextResponse.json({"he":"e"})
 }
 
-export async function POST(request) {
+export async function POST(request, response) {
   initializeDb();
-  console.log('i am at post');
+  const {title, stocks, price} = await request.json();
+  await Inventory.create({
+    title,
+    stocks,
+    price
+  })
+  return NextResponse.json({ msg: 'Inventory Created' }, { status: 200 })
 }

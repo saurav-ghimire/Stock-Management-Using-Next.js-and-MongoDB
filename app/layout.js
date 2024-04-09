@@ -3,6 +3,8 @@ import "./globals.css";
 import Header from "./components/Header/Header";
 import Search from "./components/Search/Search";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -17,6 +19,7 @@ export default function RootLayout({ children }) {
         <Header />
         <Search />
         {children}
+        <ToastContainer/>
         </body>
     </html>
   );

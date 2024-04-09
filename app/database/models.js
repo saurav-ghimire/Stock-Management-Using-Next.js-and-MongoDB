@@ -10,11 +10,11 @@ try {
   const InventorySchema = new mongoose.Schema({
     title: {
       type: String,
-      required: true,
+      required: true
     },
     price: {
-      type: String,
-      required: true,
+      type: Number,
+      required: true
     },
     stocks: {
       type: Number,
@@ -24,7 +24,7 @@ try {
     timestamps: true, // Automatically create createdAt and updatedAt fields
   });
 
-  Todo = mongoose.model('Inventory', InventorySchema);
+  Inventory = mongoose.model('Inventory', InventorySchema);
 }
 
-module.exports = Todo;
+module.exports = Inventory;
