@@ -58,7 +58,6 @@ export default function Home() {
             category: ''
           });
 
-          
             fetchAllData()
           
 
@@ -66,6 +65,24 @@ export default function Home() {
      
     } catch (error) {
       console.error("Error sending product data:", error);
+    }
+  }
+
+  const handleDelete =  async (id) => {
+    try{
+      const response = await axios.delete("/api/product", {
+        params: {
+          id: id
+        }
+      });
+      fetchAllData();
+      if (response.status === 200) {
+        toast.success('Item is Deleted', {
+          autoClose: 3000,
+        });
+      }
+    }catch(error){
+      console.log('error')
     }
   }
 
@@ -160,6 +177,7 @@ export default function Home() {
                 <th className="text-left py-3 px-4">Category</th>
                 <th className="text-left py-3 px-4">Quantity</th>
                 <th className="text-left py-3 px-4">Price</th>
+                <th className="text-left py-3 px-4">Actions</th>
               </tr>
             </thead>
             <tbody className="text-gray-800">
@@ -173,6 +191,16 @@ export default function Home() {
                   <td className="py-4 px-6">{data.category}</td>
                   <td className="py-4 px-6">{data.stocks}</td>
                   <td className="py-4 px-6">{data.price}</td>
+                  <td className="py-4 px-6">
+                  <button
+                  onClick={() => handleDelete(data._id)}
+                   className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                      Delete
+                  </button>
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 ml-2 rounded">
+                      Edit
+                  </button>
+              </td>
                 </tr>
                 ))
               }
