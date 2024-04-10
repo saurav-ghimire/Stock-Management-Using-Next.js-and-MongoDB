@@ -91,7 +91,8 @@ export default function Home() {
 
   const toggleModal = (id) => {
     setModal(!modal);
-    setModalID(id)
+    setModalID(id);
+    fetchAllData();
   };
   
   

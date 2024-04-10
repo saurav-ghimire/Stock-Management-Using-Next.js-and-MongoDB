@@ -1,17 +1,37 @@
 import axios from 'axios';
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 
+
 function SingleProductEdit({popup, id}) {
-  
+
   const [formData, setFormData] = useState({
-    id:'',
     title:'',
     stocks:'',
     price:''
   });
-  formData.id = id;
+
+  const fetchSingleData = async () => {
+    try {
+      const response = await axios.get(`/api/singleproduct/?id=${id}`);
+      setFormData({
+        title:response.data.title,
+        stocks:response.data.stocks,
+        price:response.data.price
+      })
+     
+    } catch (error) {
+      console.error("Error Fetching Data:", error);
+      // You can handle errors here, like showing an error message
+    }
+  }
+
+  useEffect(() => {
+    fetchSingleData();
+  }, [])
+  
+  
   const handleChange = (e) => {
     // e.preventDefault();
     const { name, value } = e.target;
@@ -29,7 +49,7 @@ function SingleProductEdit({popup, id}) {
     e.preventDefault();
 
     try {
-      const response = await axios.put(`/api/product/`, formData);
+      const response = await axios.put(`/api/product/?id=${id}`, formData);
       
       if (response.status === 200) {
         toast.success("Inventory Updated Successfully");
@@ -56,6 +76,7 @@ function SingleProductEdit({popup, id}) {
             <input
               id="title"
               name="title"
+              value={formData.title}
               type="text"
               onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder-gray-400"
@@ -69,6 +90,7 @@ function SingleProductEdit({popup, id}) {
             <input
               id="stocks"
               name="stocks"
+              value={formData.stocks}
               type="number"
               onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder-gray-400"
@@ -82,6 +104,7 @@ function SingleProductEdit({popup, id}) {
             <input
               id="price"
               name="price"
+              value={formData.price}
               type="number"
               onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder-gray-400"

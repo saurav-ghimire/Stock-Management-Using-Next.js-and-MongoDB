@@ -8,6 +8,7 @@ export async function GET(request) {
   return NextResponse.json(data, { status: 200 });
 }
 
+
 export async function POST(request, response) {
   initializeDb();
   const {title, stocks, price, category} = await request.json();
@@ -30,7 +31,12 @@ export async function DELETE(request) {
 
 export async function PUT(request) {
   initializeDb();
-  const { id, title, stocks, price, category } = await request.json();
+  
+  const searchParams = request.nextUrl.searchParams;
+  const id = searchParams.get('id');
+  const {  title, stocks, price, category } = await request.json();
+  
+
   let newData = {};
   if (title) {
     newData.title = title;
