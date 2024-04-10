@@ -1,4 +1,4 @@
-import React from 'react';
+import Link from 'next/link'
 
 function Header() {
   return (
@@ -11,10 +11,8 @@ function Header() {
           <span className="ml-3 text-xl font-extrabold">Stock Management</span>
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <a href="#" className="mr-5 hover:text-gray-900">First Link</a>
-          <a href="#" className="mr-5 hover:text-gray-900">Second Link</a>
-          <a href="#" className="mr-5 hover:text-gray-900">Third Link</a>
-          <a href="#" className="mr-5 hover:text-gray-900">Fourth Link</a>
+          <Link href="./" className="mr-5 hover:text-gray-900">Home</Link>
+          <Link href="./stocks" className="mr-5 hover:text-gray-900">Stocks</Link>
         </nav>
       </div>
     </header>
