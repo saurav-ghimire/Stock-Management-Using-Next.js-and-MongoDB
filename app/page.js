@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import SingleProductEdit from './components/Search/SingleProductEdit';
+import SingleProductEdit from './components/SinglProductEdit/SingleProductEdit';
 
 export default function Home() {
   const [modal, setModal] = useState(false);

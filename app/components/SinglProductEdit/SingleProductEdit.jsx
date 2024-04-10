@@ -19,7 +19,9 @@ function SingleProductEdit({popup, id}) {
         title:response.data.title,
         stocks:response.data.stocks,
         price:response.data.price
-      })
+      });
+
+      
      
     } catch (error) {
       console.error("Error Fetching Data:", error);
@@ -38,7 +40,7 @@ function SingleProductEdit({popup, id}) {
     setFormData({
       ...formData,
       [name]:value
-    })
+    });
   }
 
   const closePopup = () => {
