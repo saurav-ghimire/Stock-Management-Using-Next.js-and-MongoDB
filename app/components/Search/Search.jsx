@@ -21,7 +21,11 @@ function Search() {
 
 
     try {
-      const response = await axios.get(`/api/search/?title=${searchTitle}`);
+      let url = `/api/search/?title=${searchTitle}`;
+      if (searchCategory) {
+        url += `&category=${searchCategory}`;
+      }
+      const response = await axios.get(url);
       setProducts(response.data);
     } catch (error) {
       console.log(error)

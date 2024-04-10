@@ -6,9 +6,18 @@ export async function GET(request) {
   initializeDb();
   const searchParams = request.nextUrl.searchParams;
   const productTitle = searchParams.get('title');
+  const productCategory = searchParams.get('category');
   
   try {
-    const results = await Inventory.find({ title: { $regex: productTitle, $options: 'i' } });
+    let query = {};
+
+    if (productCategory) {
+      query = { title: { $regex: productTitle, $options: 'i' }, category: productCategory };
+    } else {
+      query = { title: { $regex: productTitle, $options: 'i' } };
+    }
+
+    const results = await Inventory.find(query);
 
     // Return the results as JSON
     return NextResponse.json(results);
