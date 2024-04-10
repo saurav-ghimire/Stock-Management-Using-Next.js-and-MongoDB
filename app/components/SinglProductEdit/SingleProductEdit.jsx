@@ -2,10 +2,11 @@ import axios from 'axios';
 import React from "react";
 import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
+import Loader from '../Loader/Loader';
 
 
 function SingleProductEdit({popup, id}) {
-
+const [loader, setLoader] = useState(true);
   const [formData, setFormData] = useState({
     title:'',
     stocks:'',
@@ -26,6 +27,9 @@ function SingleProductEdit({popup, id}) {
     } catch (error) {
       console.error("Error Fetching Data:", error);
       // You can handle errors here, like showing an error message
+    }
+    finally{
+      setLoader(false);
     }
   }
 
@@ -70,7 +74,10 @@ function SingleProductEdit({popup, id}) {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white rounded-lg p-8 w-96">
         <h2 className="text-lg font-semibold mb-4">Edit Product</h2>
-        <form className="space-y-4" onSubmit={submitData}>
+        {
+          loader ? (<div><Loader/></div>) :
+        (
+<form className="space-y-4" onSubmit={submitData}>
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
               Title
@@ -129,6 +136,8 @@ function SingleProductEdit({popup, id}) {
             </button>
           </div>
         </form>
+        )}
+        
       </div>
     </div>
   );
