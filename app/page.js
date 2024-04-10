@@ -4,12 +4,13 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import SingleProductEdit from './components/SinglProductEdit/SingleProductEdit';
+import Loader from './components/Loader/Loader';
 
 export default function Home() {
   const [modal, setModal] = useState(false);
   const [modalID, setModalID] = useState("");
   const [listData, setList] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const fetchAllData = async () => {
     try{
       const fetchedData = await axios.get("/api/product");
@@ -18,6 +19,8 @@ export default function Home() {
       }
     }catch(error){
       console.log(error);
+    }finally{
+      setLoading(false);
     }
   }
   useEffect(() => {
@@ -99,6 +102,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
+      
       {/* Add Stock Form */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-4">Add a Stock</h1>
@@ -174,6 +178,9 @@ export default function Home() {
       </div>
 
       {/* Display Current Stock */}
+      {loading ? (
+        <Loader />
+      ) : (
       <div>
         <h1 className="text-2xl font-bold mb-4">Current Stock</h1>
         <div className="overflow-x-auto">
@@ -219,6 +226,7 @@ export default function Home() {
           </table>
         </div>
       </div>
+      )}
       
       {modal && <SingleProductEdit popup={toggleModal} id={modalID} />}
 
