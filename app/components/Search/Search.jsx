@@ -1,24 +1,24 @@
 "use client"
 import axios from "axios";
-import { useState,useRef } from "react";
+import { useState, useRef } from "react";
 
 function Search() {
-
   const title = useRef("");
   const category = useRef("");
   const [products, setProducts] = useState([]);
-
+  const [loading, setLoading] = useState(false);
 
   const handleOnChange = async () => {
-    
-    const searchTitle = title.current.value;
-    const searchCategory = category.current.value;
-    
-    if (!searchTitle.trim()) { // If searchTitle is empty or contains only whitespace
-      setProducts([]); // Clear products array
-      return; // Exit early
+    const searchTitle = title.current.value.trim(); // Trim the value here
+
+    if (!searchTitle) { // Check if searchTitle is empty after trimming
+      setProducts([]);
+      return;
     }
 
+    const searchCategory = category.current.value;
+
+    setLoading(true);
 
     try {
       let url = `/api/search/?title=${searchTitle}`;
@@ -28,16 +28,14 @@ function Search() {
       const response = await axios.get(url);
       setProducts(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-    
   };
 
-  
-  
   return (
     <div className="container py-10 px-7 bg-slate-100">
-      {/* Search Stocks by Category */}
       <div>
         <h2 className="text-xl font-bold mb-2">Search Stocks by Category</h2>
         <div className="flex items-center">
@@ -49,13 +47,13 @@ function Search() {
             className="w-full md:w-2/2 py-2 px-4 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           />
           <select
-          onChange = {handleOnChange}
-          ref={category}
+            onChange={handleOnChange}
+            ref={category}
             className="py-2 px-4 border border-gray-300 rounded-r focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           >
             <option value="">All Categories</option>
             <option value="">Select Category</option>
-              <option value="Electronics">Electronics</option>
+            <option value="Electronics">Electronics</option>
               <option value="Clothing">Clothing</option>
               <option value="Books">Books</option>
               <option value="Home & Kitchen">Home & Kitchen</option>
@@ -89,15 +87,26 @@ function Search() {
         </div>
       </div>
       <div className="product-found">
-      {products.map((product, index) => (
-          <div key={index} className="my-4 p-4 border rounded-lg shadow-lg bg-white">
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">{product.title}</h3>
-          
-            <p className="text-gray-600">Stocks: {product.stocks}</p>
-            <p className="text-gray-600">Price: ${product.price}</p>
-          
+        {!loading && products.length === 0 && title.current.value && (
+          <div className="my-4 p-4 border rounded-lg shadow-lg bg-red-100">
+            <p className="text-xl font-semibold text-red-800 mb-2">
+              No matching products found.
+            </p>
           </div>
-        ))}
+        )}
+        {!loading &&
+          products.map((product, index) => (
+            <div
+              key={index}
+              className="my-4 p-4 border rounded-lg shadow-lg bg-white"
+            >
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                {product.title}
+              </h3>
+              <p className="text-gray-600">Stocks: {product.stocks}</p>
+              <p className="text-gray-600">Price: ${product.price}</p>
+            </div>
+          ))}
       </div>
     </div>
   );
